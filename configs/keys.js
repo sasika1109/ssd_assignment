@@ -7,8 +7,4 @@ const KEYS = {
     "session_key": "secret123"
 }
 
-module.exports = KEYS
-
-
-
-
+module.exports = KEYS;
