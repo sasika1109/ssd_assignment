@@ -6,11 +6,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{title}}</title>
+
     <link href="/static/materializ.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/dashboard.css">
 </head>
 
 <body>
 
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="wrapper-profile">
+                        <img src="{{avatar}}" alt="avatar" class="circle profile">
+                        <p class="title">{{name}}</p>
+                        <p class="text">Google ID (User ID) : <span>{{googleid}}</span></p>
+                        <p class="text">Email : <span>{{email}}</span></p>
+
+                        <form action="/uploadFile" method="post" enctype="multipart/form-data">
+
+                            <input type="file" id="files" name="file_upload" multiple="multiple" class="btn-select" />
+
+                            <input type="submit" value="Upload Files" class="btn btn-lg btn-primary" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <nav>
         <div class="nav-wrapper">
             <ul id="nav-mobile" class="right">
@@ -50,12 +73,7 @@
                     <div class="container">
                         <div class="col-md-4"></div>
                         <div class="col-md-4">
-                            <form action="/uploadFile" method="post" enctype="multipart/form-data">
-                                <input type="file" id="files" name="file_upload" multiple="multiple" />
-                                <p style="text-align: right; margin-top: 20px;">
-                                    <input type="submit" value="Upload Files" class="btn btn-lg btn-primary" />
-                                </p>
-                            </form>
+
                         </div>
                         <div class="col-md-4"></div>
                     </div>
