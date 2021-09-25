@@ -83,8 +83,6 @@ router.post('/uploadFile', function (req, res) {
 // logout
 router.get('/logout', (req, res) => {
     req.logout();
-    console.log("**********************");
-    console.log(req.user);
     // req.session.destroy();
     //res.send('Goodbye!');
     res.redirect('/')
