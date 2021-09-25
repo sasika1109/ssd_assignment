@@ -24,3 +24,23 @@
 .text span {
     font-weight: 400;
 }
+
+.btn-select {
+    display: block;
+    margin: 0 auto;
+    margin: 30px auto;
+}
+
+.btn-logout {
+    text-decoration: none;
+    color: #fff;
+    background-color: #26a69a;
+    text-align: center;
+    letter-spacing: .5px;
+    -webkit-transition: background-color .2s ease-out;
+    transition: background-color .2s ease-out;
+    cursor: pointer;
+    padding: 10px 20px;
+    margin-left: 10px;
+    border-radius: 2px;
+}
