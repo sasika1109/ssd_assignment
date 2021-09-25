@@ -5,9 +5,6 @@ const passport = require('passport')
 let router = Router()
 
 function isLoggedIn(req, res, next) {
-    console.log("+++++++++++++++");
-    console.log(req.user);
-    console.log("+++++++++++++++");
     req.user ? next() : res.sendStatus(401);
 }
 
@@ -32,8 +29,6 @@ router.get('/google/callback', passport.authenticate('google'), isLoggedIn, func
 // logout
 router.get('/logout', (req, res) => {
     req.logOut();
-    console.log("**********333************");
-    console.log(req.user)
     // req.session.destroy();
     //res.send('Goodbye!');
     res.redirect('/')
