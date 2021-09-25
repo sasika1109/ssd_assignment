@@ -1,11 +1,11 @@
 	/* Coded with love by Mutiullah Samim */
     body,
     html {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        background: #ddebf0 !important;
+        font-family: 'Lato', sans-serif;    
+        font-size: 14px;
     }
+
+
     .user_card {
         height: 200px;
         width: 350px;

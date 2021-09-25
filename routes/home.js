@@ -8,9 +8,6 @@ const router = Router()
 
 
 function isLoggedIn(req, res, next) {
-    console.log("+++++++++++++++");
-    console.log(req.user);
-    console.log("+++++++++++++++");
     req.user ? next() : res.sendStatus(401);
 }
 

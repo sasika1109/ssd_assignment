@@ -1,0 +1,21 @@
+.section {
+    background: url('./img-background.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+}
+
+.wrapper-login {
+    position: relative;
+    top: 200px;
+    text-align: center;
+}
+
+.wrapper-login h1 {
+    font-weight: 600;
+    font-size: 40px;
+}
+
+.btn-signin {
+    padding: 8px 70px;
+}

@@ -22,6 +22,7 @@ nunjucks.configure('views', {
 
 // init static
 app.use('/static', express.static('public'))
+app.use(express.static(__dirname + '/public'));
 
 
 // init session
