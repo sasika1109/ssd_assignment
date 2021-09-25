@@ -3,9 +3,7 @@ const passport = require('passport')
 const { google } = require('googleapis')
 const KEYS = require('../configs/keys')
 
-
-const router = Router()
-
+const router = Router();
 
 function isLoggedIn(req, res, next) {
     req.user ? next() : res.sendStatus(401);
@@ -13,7 +11,7 @@ function isLoggedIn(req, res, next) {
 
 router.get('/', function (req, res) {
     res.render('home.html', { 'title': 'Application Home' })
-})
+});
 
 router.get('/dashboard', isLoggedIn, function (req, res) {
 
@@ -37,9 +35,8 @@ router.get('/dashboard', isLoggedIn, function (req, res) {
         else if (req.query.file == "notupload") parseData.file = "notuploaded"
     }
 
-    res.render('dashboard.html', parseData)
-
-})
+    res.render('dashboard.html', parseData);
+});
 
 router.post('/uploadFile', function (req, res) {
 
@@ -81,7 +78,7 @@ router.post('/uploadFile', function (req, res) {
 
         }).catch(err => { throw new Error(err) })
     }
-})
+});
 
 // logout
 router.get('/logout', (req, res) => {
@@ -94,5 +91,4 @@ router.get('/logout', (req, res) => {
 });
 
 
-module.exports = router
-
+module.exports = router;

@@ -22,7 +22,6 @@ router.get('/login/google', passport.authenticate("google", {
 
 // callback from google oauth (with token)
 router.get('/google/callback', passport.authenticate('google'), isLoggedIn, function (req, res) {
-
     res.redirect('/dashboard')
 })
 
@@ -30,7 +29,7 @@ router.get('/google/callback', passport.authenticate('google'), isLoggedIn, func
 router.get('/logout', (req, res) => {
     req.logOut();
     // req.session.destroy();
-    //res.send('Goodbye!');
+    // res.send('Goodbye!');
     res.redirect('/')
 });
 
