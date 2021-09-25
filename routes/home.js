@@ -2,8 +2,24 @@ const { Router } = require('express')
 const passport = require('passport')
 const { google } = require('googleapis')
 const KEYS = require('../configs/keys')
+const multer = require("multer");
+const fs = require("fs");
+var name, pic
 
 const router = Router();
+
+var Storage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, "./images");
+    },
+    filename: function (req, file, callback) {
+        callback(null, file.fieldname + "_" + Date.now() + "_" + file.originalname);
+    },
+});
+
+var upload = multer({
+    storage: Storage,
+}).single("file"); //Field name and max count
 
 function isLoggedIn(req, res, next) {
     req.user ? next() : res.sendStatus(401);
@@ -38,46 +54,125 @@ router.get('/dashboard', isLoggedIn, function (req, res) {
     res.render('dashboard.html', parseData);
 });
 
+
+
+
+// router.post('/upload', function (req, res) {
+//     upload(req, res, function (err) {
+//         if (err) {
+//             console.log(err);
+//             return res.end("Something went wrong");
+//         } else {
+
+//             console.log(req.file);
+//             const oauth2Client = new google.auth.OAuth2()
+//             oauth2Client.setCredentials({
+//                 'access_token': req.user.accessToken
+//             });
+//             const drive = google.drive({ version: "v3", auth: oauth2Client });
+//             const fileMetadata = {
+//                 name: req.file.filename,
+//             };
+//             const media = {
+//                 mimeType: req.file.mimetype,
+//                 body: fs.createReadStream(req.file.path),
+//             };
+//             drive.files.create(
+//                 {
+//                     resource: fileMetadata,
+//                     media: media,
+//                     fields: "id",
+//                 },
+//                 (err, file) => {
+//                     if (err) {
+//                         // Handle error
+//                         console.error(err);
+//                     } else {
+//                         fs.unlinkSync(req.file.path)
+//                         res.render("success", { name: name, pic: pic, success: true })
+//                     }
+
+//                 }
+//             );
+//         }
+//     });
+//     // // auth user
+
+//     // config google drive with client token
+//     const oauth2Client = new google.auth.OAuth2()
+//     oauth2Client.setCredentials({
+//         'access_token': req.user.accessToken
+//     });
+
+//     const drive = google.drive({
+//         version: 'v3',
+//         auth: oauth2Client
+//     });
+
+//     //move file to google drive
+
+//     let { name: filename, mimetype, data } = req.files.file_upload
+
+//     const driveResponse = drive.files.create({
+//         requestBody: {
+//             name: filename,
+//             mimeType: mimetype
+//         },
+//         media: {
+//             mimeType: mimetype,
+//             body: Buffer.from(data).toString()
+//         }
+//     });
+
+//     driveResponse.then(data => {
+
+//         if (data.status == 200) res.redirect('/dashboard?file=upload') // success
+//         else res.redirect('/dashboard?file=notupload') // unsuccess
+
+//     }).catch(err => { throw new Error(err) })
+
+// });
+
+
+
 router.post('/uploadFile', function (req, res) {
+    upload(req, res, function (err) {
+        if (err) {
+            console.log(err);
+            return res.end("Something went wrong");
+        } else {
+            const oauth2Client = new google.auth.OAuth2()
+            oauth2Client.setCredentials({
+                'access_token': req.user.accessToken
+            });
+            const drive = google.drive({ version: "v3", auth: oauth2Client });
+            const fileMetadata = {
+                name: req.file.filename,
+            };
+            const media = {
+                mimeType: req.file.mimetype,
+                body: fs.createReadStream(req.file.path),
+            };
 
-    // not auth
-    if (!req.user) res.redirect('/auth/login/google')
-    else {
-        // auth user
+            const driveResponse = drive.files.create({
+                requestBody: {
+                    name: req.file.filename,
+                    mimeType: req.file.mimetype
+                },
+                media: {
+                    mimeType: req.file.mimetype,
+                    body: fs.createReadStream(req.file.path),
+                }
+            });
 
-        // config google drive with client token
-        const oauth2Client = new google.auth.OAuth2()
-        oauth2Client.setCredentials({
-            'access_token': req.user.accessToken
-        });
+            driveResponse.then(data => {
 
-        const drive = google.drive({
-            version: 'v3',
-            auth: oauth2Client
-        });
+                if (data.status == 200) res.redirect('/dashboard?file=upload') // success
+                else res.redirect('/dashboard?file=notupload') // unsuccess
 
-        //move file to google drive
-
-        let { name: filename, mimetype, data } = req.files.file_upload
-
-        const driveResponse = drive.files.create({
-            requestBody: {
-                name: filename,
-                mimeType: mimetype
-            },
-            media: {
-                mimeType: mimetype,
-                body: Buffer.from(data).toString()
-            }
-        });
-
-        driveResponse.then(data => {
-
-            if (data.status == 200) res.redirect('/dashboard?file=upload') // success
-            else res.redirect('/dashboard?file=notupload') // unsuccess
-
-        }).catch(err => { throw new Error(err) })
-    }
+            }).catch(err => { throw new Error(err) })
+        }
+    });
 });
 
 // logout

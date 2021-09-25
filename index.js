@@ -34,8 +34,8 @@ app.use(passport.session());
 app.use(flash());
 app.use(toastr());
 
-// file upload
-app.use(fileUpload());
+// // file upload
+// app.use(fileUpload());
 
 // init routes
 app.use('', homeRouter);
