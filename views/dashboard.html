@@ -41,7 +41,7 @@
 
                         <input type="file" id="files" name="file" multiple="multiple" class="btn-select" />
 
-                        <input type="submit" value="Upload Files" class="btn btn-lg btn-primary" />
+                        <input type="submit" value="Upload Files" id="submitBtn" class="btn btn-lg btn-primary" />
                         <a href="/auth/logout" class="btn-logout">LOGOUT</a>
                     </form>
                 </div>
@@ -54,4 +54,17 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
+<script>
+    document.getElementById('submitBtn').disabled = true;
+    document.getElementById('files').onchange = function(value) {
+        // fire the upload here
+        console.log(value);
+        console.log(document.getElementById('files').value );
+        if(document.getElementById('files').value === "") {
+            document.getElementById('submitBtn').disabled = true;
+        } else {
+            document.getElementById('submitBtn').disabled = false;
+        }
+    };
+</script>
 </html>

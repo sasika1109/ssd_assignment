@@ -28,3 +28,10 @@ build/Release
 node_modules
 
 package-lock\.json
+
+# exception to the rule
+!files
+
+
+files/*
+images/*
