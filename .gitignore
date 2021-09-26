@@ -28,6 +28,3 @@ build/Release
 node_modules
 
 package-lock\.json
-
-files/
-images/
