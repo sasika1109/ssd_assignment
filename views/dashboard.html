@@ -7,35 +7,51 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{title}}</title>
 
-    <link href="/static/materializ.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
     <link rel="stylesheet" href="/dashboard.css">
+    <link href="/static/materializ.css" rel="stylesheet" />
 </head>
 
 <body>
 
-    <div class="section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="wrapper-profile">
-                        <img src="{{avatar}}" alt="avatar" class="circle profile">
-                        <p class="title">{{name}}</p>
-                        <p class="text">Google ID (User ID) : <span>{{googleid}}</span></p>
-                        <p class="text">Email : <span>{{email}}</span></p>
-
-                        <form action="/uploadFile" method="post" enctype="multipart/form-data">
-
-                            <input type="file" id="files" name="file" multiple="multiple" class="btn-select" />
-
-                            <input type="submit" value="Upload Files" class="btn btn-lg btn-primary" />
-                            <a href="/auth/logout" class="btn-logout">LOGOUT</a>
-                        </form>
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="wrapper-profile">
+                    <img src="{{avatar}}" alt="avatar" class="circle profile">
+                    <p class="title">{{name}}</p>
+                    <p class="text">Google ID (User ID) : <span>{{googleid}}</span></p>
+                    <p class="text">Email : <span>{{email}}</span></p>
+                    <div>
+                        {% if (file=="uploaded" ) %}
+                        <div class="alert alert-success alert-dismissible">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                            <strong>Success!</strong> Your File is Uploaded.
+                        </div>
+                        {% elif (file == "notuploaded") %}
+                        <div class="light-blue lighten-1" style="padding: 2px 10px">
+                            <p>Failed to upload please try again</p>
+                        </div>
+                        {% endif %}
                     </div>
+                    <form action="/uploadFile" method="post" enctype="multipart/form-data">
+
+                        <input type="file" id="files" name="file" multiple="multiple" class="btn-select" />
+
+                        <input type="submit" value="Upload Files" class="btn btn-lg btn-primary" />
+                        <a href="/auth/logout" class="btn-logout">LOGOUT</a>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
 </html>
