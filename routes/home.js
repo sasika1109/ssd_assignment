@@ -54,44 +54,6 @@ router.get('/dashboard', isLoggedIn, function (req, res) {
     res.render('dashboard.html', parseData);
 });
 
-
-
-
-// router.post('/upload', function (req, res) {
-//     upload(req, res, function (err) {
-//         if (err) {
-//             console.log(err);
-//             return res.end("Something went wrong");
-//         } else {
-
-//             console.log(req.file);
-//             const oauth2Client = new google.auth.OAuth2()
-//             oauth2Client.setCredentials({
-//                 'access_token': req.user.accessToken
-//             });
-//             const drive = google.drive({ version: "v3", auth: oauth2Client });
-//             const fileMetadata = {
-//                 name: req.file.filename,
-//             };
-//             const media = {
-//                 mimeType: req.file.mimetype,
-//                 body: fs.createReadStream(req.file.path),
-//             };
-//             drive.files.create(
-//                 {
-//                     resource: fileMetadata,
-//                     media: media,
-//                     fields: "id",
-//                 },
-//                 (err, file) => {
-//                     if (err) {
-//                         // Handle error
-//                         console.error(err);
-//                     } else {
-//                         fs.unlinkSync(req.file.path)
-//                         res.render("success", { name: name, pic: pic, success: true })
-//                     }
-
 //                 }
 //             );
 //         }
