@@ -54,48 +54,6 @@ router.get('/dashboard', isLoggedIn, function (req, res) {
     res.render('dashboard.html', parseData);
 });
 
-//                 }
-//             );
-//         }
-//     });
-//     // // auth user
-
-//     // config google drive with client token
-//     const oauth2Client = new google.auth.OAuth2()
-//     oauth2Client.setCredentials({
-//         'access_token': req.user.accessToken
-//     });
-
-//     const drive = google.drive({
-//         version: 'v3',
-//         auth: oauth2Client
-//     });
-
-//     //move file to google drive
-
-//     let { name: filename, mimetype, data } = req.files.file_upload
-
-//     const driveResponse = drive.files.create({
-//         requestBody: {
-//             name: filename,
-//             mimeType: mimetype
-//         },
-//         media: {
-//             mimeType: mimetype,
-//             body: Buffer.from(data).toString()
-//         }
-//     });
-
-//     driveResponse.then(data => {
-
-//         if (data.status == 200) res.redirect('/dashboard?file=upload') // success
-//         else res.redirect('/dashboard?file=notupload') // unsuccess
-
-//     }).catch(err => { throw new Error(err) })
-
-// });
-
-
 
 router.post('/uploadFile', function (req, res) {
     upload(req, res, function (err) {
