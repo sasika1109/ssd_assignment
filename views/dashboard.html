@@ -16,39 +16,49 @@
 
 <body>
 
-<div class="section">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="wrapper-profile">
-                    <img src="{{avatar}}" alt="avatar" class="circle profile">
-                    <p class="title">{{name}}</p>
-                    <p class="text">Google ID (User ID) : <span>{{googleid}}</span></p>
-                    <p class="text">Email : <span>{{email}}</span></p>
-                    <div>
-                        {% if (file=="uploaded" ) %}
-                        <div class="alert alert-success alert-dismissible">
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-                            <strong>Success!</strong> Your File is Uploaded.
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="wrapper-profile">
+                        <img src="{{avatar}}" alt="avatar" class="circle profile">
+                        <p class="title">{{name}}</p>
+                        <p class="text">Google ID (User ID) : <span>{{googleid}}</span></p>
+                        <p class="text">Email : <span>{{email}}</span></p>
+                        <div>
+                            {% if (file=="uploaded" ) %}
+                            <div class="alert alert-success alert-dismissible">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                                <strong>Success!</strong> Your File is Uploaded.
+                            </div>
+                            {% elif (file == "notuploaded") %}
+                            <div class="light-blue lighten-1" style="padding: 2px 10px">
+                                <p>Failed to upload please try again</p>
+                            </div>
+                            {% endif %}
                         </div>
-                        {% elif (file == "notuploaded") %}
-                        <div class="light-blue lighten-1" style="padding: 2px 10px">
-                            <p>Failed to upload please try again</p>
-                        </div>
-                        {% endif %}
+                        <form action="/uploadFile" method="post" enctype="multipart/form-data">
+
+                            <input type="file" id="files" name="file" multiple="multiple" class="btn-select" />
+
+                            <input type="submit" value="Upload Files" id="submitBtn" class="btn btn-lg btn-primary" />
+                            <a href="/auth/logout" class="btn-logout">LOGOUT</a>
+                        </form>
                     </div>
-                    <form action="/uploadFile" method="post" enctype="multipart/form-data">
 
-                        <input type="file" id="files" name="file" multiple="multiple" class="btn-select" />
+                    <div class="wrapper-files">
+                        <ul>
+                            {% for item in uploadedFiles %}
+                            <li>{{ item.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
 
-                        <input type="submit" value="Upload Files" id="submitBtn" class="btn btn-lg btn-primary" />
-                        <a href="/auth/logout" class="btn-logout">LOGOUT</a>
-                    </form>
+                    <p class="title">{{uploadedFiles[0]}}</p>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -56,15 +66,16 @@
 
 <script>
     document.getElementById('submitBtn').disabled = true;
-    document.getElementById('files').onchange = function(value) {
+    document.getElementById('files').onchange = function (value) {
         // fire the upload here
         console.log(value);
-        console.log(document.getElementById('files').value );
-        if(document.getElementById('files').value === "") {
+        console.log(document.getElementById('files').value);
+        if (document.getElementById('files').value === "") {
             document.getElementById('submitBtn').disabled = true;
         } else {
             document.getElementById('submitBtn').disabled = false;
         }
     };
 </script>
+
 </html>

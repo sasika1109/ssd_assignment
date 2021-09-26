@@ -29,26 +29,39 @@ router.get('/', function (req, res) {
     res.render('home.html', { 'title': 'Application Home' })
 });
 
-router.get('/dashboard', isLoggedIn, function (req, res) {
+router.get('/dashboard', isLoggedIn, async function (req, res) {
+    try {
+        const oauth2Client = new google.auth.OAuth2()
+        oauth2Client.setCredentials({
+            'access_token': req.user.accessToken
+        });
 
+        let uploadedFiles = await google.drive({ version: "v3", auth: oauth2Client }).files.list();
 
-    let parseData = {
-        title: 'DASHBOARD',
-        googleid: req.user._id,
-        name: req.user.name,
-        avatar: req.user.pic_url,
-        email: req.user.email
+        console.log(uploadedFiles.data.files);
+
+        let parseData = {
+            title: 'DASHBOARD',
+            googleid: req.user._id,
+            name: req.user.name,
+            avatar: req.user.pic_url,
+            email: req.user.email,
+            uploadedFiles: uploadedFiles
+        }
+
+        // if redirect with google drive response
+        if (req.query.file !== undefined) {
+
+            // successfully upload
+            if (req.query.file == "upload") parseData.file = "uploaded"
+            else if (req.query.file == "notupload") parseData.file = "notuploaded"
+        }
+
+        res.render('dashboard.html', parseData);
+
+    } catch (error) {
+        console.log(error);
     }
-
-    // if redirect with google drive response
-    if (req.query.file !== undefined) {
-
-        // successfully upload
-        if (req.query.file == "upload") parseData.file = "uploaded"
-        else if (req.query.file == "notupload") parseData.file = "notuploaded"
-    }
-
-    res.render('dashboard.html', parseData);
 });
 
 
