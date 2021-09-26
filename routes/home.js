@@ -31,9 +31,6 @@ router.get('/', function (req, res) {
 
 router.get('/dashboard', isLoggedIn, function (req, res) {
 
-    // // if not user
-    // if (typeof req.user == "undefined") res.redirect('/auth/login/google')
-    // else {
 
     let parseData = {
         title: 'DASHBOARD',
