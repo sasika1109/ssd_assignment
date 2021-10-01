@@ -50,7 +50,6 @@ router.post('/deleteFile', async function (req, res) {
             'access_token': req.user.accessToken
         });
 
-
         let deleteFile = await google.drive({
             version: "v3",
             auth: oauth2Client
