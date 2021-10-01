@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{title}}</title>
 
+    <title>{{title}}</title>
 
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" />
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
@@ -15,7 +15,6 @@
 </head>
 
 <body>
-
     <div class="section">
         <div class="container">
             <div class="row">
@@ -54,13 +53,35 @@
                             <input type="submit" value="Upload Files" id="submitBtn" class="btn btn-lg btn-primary" />
                             <a href="/auth/logout" class="btn-logout">LOG OUT</a>
                         </form>
-                        <form action="/sendMail" method="post" enctype="multipart/form-data">
-                            <input type="submit" value="Send" id="submitBtn" class="btn btn-lg btn-primary" />
-                        </form>
-                        <!-- <a href="mailhtml" class="btn-logout">mail</a> -->
                     </div>
+                </div>
 
-                    <div class="wrapper-files">
+                <div class="col-md-6">
+                    <div class="wrapper-profile">
+                        <p class="title">SEND EMAIL</p>
+
+                        {% if (email=="sent" ) %}
+                        <div class="alert alert-success alert-dismissible">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                            <strong>Success!</strong> Your email has been sent.
+                        </div>
+                        {% elif (email == "notsent") %}
+                        <div class="light-blue lighten-1" style="padding: 2px 10px">
+                            <p>Failed to send please try again</p>
+                        </div>
+                        {% endif %}
+
+                        <form action="/sendMail" method="POST">
+                            <input type="email" name="to" placeholder="To">
+                            <input type="text" name="subject" placeholder="Subject">
+                            <textarea placeholder="Message" name="message" cols="30" rows="30"></textarea>
+                            <input type="submit" value="SEND" id="submitBtn" class="btn btn-lg btn-primary btn-email" />
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="wrapper-profile wrapper-files">
                         <ul>
                             {% for item in uploadedFiles %}
                             <li>{{ item.name }}</li>

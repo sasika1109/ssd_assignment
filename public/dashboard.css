@@ -8,6 +8,7 @@
     border-radius: 10px;
     padding: 30px;
     text-align: center;
+    margin: 10px 0;
 }
 
 .title {
@@ -53,4 +54,20 @@
     background-color: #2bbbad;
     color: #fff;
     transition: 0.2s;
+}
+
+textarea {
+    border: 0;
+    border-bottom: 1px solid #9E9E9E;
+    margin-bottom: 20px !important;
+    display: block;
+    height: 500px;
+}
+
+textarea:focus {
+    outline: 0;
+}
+
+.btn-email {
+    width: 150px;
 }

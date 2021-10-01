@@ -51,7 +51,6 @@ router.get('/dashboard', isLoggedIn, async function (req, res) {
 
         let uploadedFiles = await google.drive({ version: "v3", auth: oauth2Client }).files.list();
 
-
         let parseData = {
             title: 'DASHBOARD',
             googleid: req.user._id,
@@ -63,10 +62,14 @@ router.get('/dashboard', isLoggedIn, async function (req, res) {
 
         // if redirect with google drive response
         if (req.query.file !== undefined) {
-
             // successfully upload
             if (req.query.file == "upload") parseData.file = "uploaded"
             else if (req.query.file == "notupload") parseData.file = "notuploaded"
+        }
+
+        if (req.query.email !== undefined) {
+            if (req.query.email == "sent") parseData.email = "sent"
+            else if (req.query.email == "notsent") parseData.email = "notsent"
         }
 
         res.render('dashboard.html', parseData);
@@ -120,8 +123,7 @@ router.post('/uploadFile', function (req, res) {
 
 router.post('/sendMail', async function (req, res) {
 
-    console.log(req.body);
-    const makeBody = params => {
+    const constructBody = params => {
         params.subject = new Buffer.from(params.subject).toString("base64");
         const str = [
             'Content-Type: text/plain; charset="UTF-8"\n',
@@ -138,37 +140,21 @@ router.post('/sendMail', async function (req, res) {
             .replace(/\//g, "_");
     };
 
-    const messageBody = `
-      this is a test message
-      `;
-
-    const raw = makeBody({
-        to: "sashi951109@gmail.com",
+    const raw = constructBody({
+        to: req.body.to,
         from: req.user.email,
-        subject: "test title",
-        message: messageBody
+        subject: req.body.subject,
+        message: req.body.message
     });
-    const oauth2Client = new google.auth.OAuth2()
+
+    const oauth2Client = new google.auth.OAuth2();
+
     oauth2Client.setCredentials({
         'access_token': req.user.accessToken
     });
+
     const gmail = google.gmail({ version: "v1", auth: oauth2Client });
 
-    // gmail.users.messages.send(
-    //     {
-    //         userId: "me",
-    //         resource: {
-    //             raw: raw
-    //         }
-    //     },
-    //     (err, res) => { // Modified
-    //         if (err) {
-    //             console.log(err);
-    //             return;
-    //         }
-    //         console.log(res.data);
-    //     }
-    // );
     const mailResponse = gmail.users.messages.send({
         userId: "me",
         resource: {
@@ -177,36 +163,12 @@ router.post('/sendMail', async function (req, res) {
     });
 
     mailResponse.then(data => {
-
-        if (data.status == 200) res.redirect('/dashboard?file=sent') // success
-        else res.redirect('/dashboard?file=notsent') // unsuccess
+        if (data.status == 200) res.redirect('/dashboard?email=sent') // success
+        else res.redirect('/dashboard?email=notsent') // unsuccess
 
     }).catch(err => { throw new Error(err) })
-
-
-
 });
-// router.post('/uploadFile', async function (req, res) {
-//     const oauth2Client = new google.auth.OAuth2()
-//     oauth2Client.setCredentials({
-//         'access_token': req.user.accessToken
-//     });
-//     const gmail = google.gmail({ version: 'v1', auth: oauth2Client });
-//     gmail.users.labels.list({
-//         userId: 'me',
-//     }, (err, res) => {
-//         if (err) return console.log('The API returned an error: ' + err);
-//         const labels = res.data.labels;
-//         if (labels.length) {
-//             console.log('Labels:');
-//             labels.forEach((label) => {
-//                 console.log(`- ${label.name}`);
-//             });
-//         } else {
-//             console.log('No labels found.');
-//         }
-//     });
-// });
+
 // logout
 router.get('/logout', (req, res) => {
     req.logout();
@@ -214,6 +176,5 @@ router.get('/logout', (req, res) => {
     //res.send('Goodbye!');
     res.redirect('/')
 });
-
 
 module.exports = router;
