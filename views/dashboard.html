@@ -36,6 +36,16 @@
                                 <p>Failed to upload please try again</p>
                             </div>
                             {% endif %}
+                            {% if (file=="sent" ) %}
+                            <div class="alert alert-success alert-dismissible">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                                <strong>Success!</strong> Your Email sent.
+                            </div>
+                            {% elif (file == "notsent") %}
+                            <div class="light-blue lighten-1" style="padding: 2px 10px">
+                                <p>Failed to send please try again</p>
+                            </div>
+                            {% endif %}
                         </div>
                         <form action="/uploadFile" method="post" enctype="multipart/form-data">
 
@@ -44,6 +54,10 @@
                             <input type="submit" value="Upload Files" id="submitBtn" class="btn btn-lg btn-primary" />
                             <a href="/auth/logout" class="btn-logout">LOGOUT</a>
                         </form>
+                        <form action="/sendMail" method="post" enctype="multipart/form-data">
+                            <input type="submit" value="Send" id="submitBtn" class="btn btn-lg btn-primary" />
+                        </form>
+                        <!-- <a href="mailhtml" class="btn-logout">mail</a> -->
                     </div>
 
                     <div class="wrapper-files">
@@ -68,8 +82,7 @@
     document.getElementById('submitBtn').disabled = true;
     document.getElementById('files').onchange = function (value) {
         // fire the upload here
-        console.log(value);
-        console.log(document.getElementById('files').value);
+
         if (document.getElementById('files').value === "") {
             document.getElementById('submitBtn').disabled = true;
         } else {
