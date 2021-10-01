@@ -9,6 +9,7 @@ var name, pic
 
 const router = Router();
 
+// mulger storage configuration for file uploading
 var Storage = multer.diskStorage({
     destination: function (req, file, callback) {
         callback(null, "./files");
@@ -26,11 +27,13 @@ function isLoggedIn(req, res, next) {
     req.user ? next() : res.sendStatus(401);
 }
 
+// landing page route
 router.get('/', function (req, res) {
     res.render('home.html', { 'title': 'Application Home' })
 });
 
 
+// delete files from Google Drive
 router.post('/deleteFile', async function (req, res) {
 
     try {
@@ -54,6 +57,7 @@ router.post('/deleteFile', async function (req, res) {
     }
 });
 
+// load dashboard items
 router.get('/dashboard', isLoggedIn, async function (req, res) {
     try {
         const oauth2Client = new google.auth.OAuth2()
@@ -93,6 +97,7 @@ router.get('/dashboard', isLoggedIn, async function (req, res) {
     }
 });
 
+// upload files
 router.post('/uploadFile', function (req, res) {
     upload(req, res, function (err) {
         if (err) {
@@ -133,7 +138,7 @@ router.post('/uploadFile', function (req, res) {
     });
 });
 
-
+// send email
 router.post('/sendMail', async function (req, res) {
 
     const constructBody = params => {
