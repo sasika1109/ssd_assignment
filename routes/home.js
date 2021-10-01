@@ -30,17 +30,6 @@ router.get('/', function (req, res) {
     res.render('home.html', { 'title': 'Application Home' })
 });
 
-router.get('/mailhtml', function (req, res) {
-    let parseData = {
-
-        googleid: req.user._id,
-        name: req.user.name,
-        avatar: req.user.pic_url,
-        email: req.user.email,
-
-    }
-    res.render('mail.html', parseData)
-});
 
 router.post('/deleteFile', async function (req, res) {
 
