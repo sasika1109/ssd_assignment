@@ -9,13 +9,8 @@ $ npm install
 ```
 
 4. Make sure you have Node installed in your computer. If not, download it from here  [node.js](https://nodejs.org/en/)
-
-
-
-### Developmnet Environment
-
+5. After all packages and dependencies are installed, run the following command to start the app
 ```bash
 $ npm start
-# Development stage ( This will nodemon internally ).
-
 ```
+7. Once the server is started, visit ```localhost:5000``` on your browser.
