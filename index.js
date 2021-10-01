@@ -10,6 +10,8 @@ const fileUpload = require('express-fileupload')
 const session = require('express-session');
 const flash = require('connect-flash');
 const toastr = require('express-toastr');
+const bodyParser = require('body-parser');
+
 
 // init app
 let app = express();
@@ -25,6 +27,9 @@ nunjucks.configure('views', {
 // init static
 app.use('/static', express.static('public'));
 app.use(express.static(__dirname + '/public'));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
 

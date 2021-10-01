@@ -6,9 +6,13 @@
   "scripts": {
     "start": "nodemon index.js"
   },
+  "nodemonConfig": {
+    "ext": "js,html"
+  },
   "author": "Sasika Sampath",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "connect-flash": "^0.1.1",
     "cookie-session": "^1.3.3",
     "express": "^4.16.4",
