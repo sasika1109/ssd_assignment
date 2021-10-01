@@ -9,3 +9,13 @@ $ npm install
 ```
 
 4. Make sure you have Node installed in your computer. If not, download it from here  [node.js](https://nodejs.org/en/)
+
+
+
+### Developmnet Environment
+
+```bash
+$ npm start
+# Development stage ( This will nodemon internally ).
+
+```
