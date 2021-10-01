@@ -42,6 +42,31 @@ router.get('/mailhtml', function (req, res) {
     res.render('mail.html', parseData)
 });
 
+router.post('/deleteFile', async function (req, res) {
+
+    try {
+        const oauth2Client = new google.auth.OAuth2()
+        oauth2Client.setCredentials({
+            'access_token': req.user.accessToken
+        });
+
+
+        let deleteFile = await google.drive({
+            version: "v3",
+            auth: oauth2Client
+        }).files.delete({fileId: req.body.item_id});
+
+        if (deleteFile.status === 204) {
+            res.redirect('/dashboard?file=deleted');
+        } else {
+            res.redirect('/dashboard?file=not_deleted');
+        }
+    } catch (e) {
+        res.redirect('/dashboard?file=not_deleted');
+    }
+});
+
+
 router.get('/dashboard', isLoggedIn, async function (req, res) {
     try {
         const oauth2Client = new google.auth.OAuth2()
@@ -57,7 +82,7 @@ router.get('/dashboard', isLoggedIn, async function (req, res) {
             name: req.user.name,
             avatar: req.user.pic_url,
             email: req.user.email,
-            uploadedFiles: uploadedFiles
+            uploadedFiles: uploadedFiles.data.files
         }
 
         // if redirect with google drive response
@@ -65,6 +90,8 @@ router.get('/dashboard', isLoggedIn, async function (req, res) {
             // successfully upload
             if (req.query.file == "upload") parseData.file = "uploaded"
             else if (req.query.file == "notupload") parseData.file = "notuploaded"
+            else if (req.query.file == "deleted") parseData.file = "deleted"
+            else if (req.query.file == "not_deleted") parseData.file = "not_deleted"
         }
 
         if (req.query.email !== undefined) {
@@ -78,7 +105,6 @@ router.get('/dashboard', isLoggedIn, async function (req, res) {
         console.log(error);
     }
 });
-
 
 router.post('/uploadFile', function (req, res) {
     upload(req, res, function (err) {
