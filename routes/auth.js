@@ -17,7 +17,7 @@ router.get('/login', function (req, res) {
 
 // login redirect
 router.get('/login/google', passport.authenticate("google", {
-    scope: ['profile', "https://www.googleapis.com/auth/drive.file", "email"]
+    scope: ['profile', "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/gmail.send", "https://www.googleapis.com/auth/gmail.readonly", "email"]
 }))
 
 // callback from google oauth (with token)
