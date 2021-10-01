@@ -9,6 +9,7 @@ var name, pic
 
 const router = Router();
 
+// mulger storage configuration for file uploading
 var Storage = multer.diskStorage({
     destination: function (req, file, callback) {
         callback(null, "./files");
@@ -26,22 +27,13 @@ function isLoggedIn(req, res, next) {
     req.user ? next() : res.sendStatus(401);
 }
 
+// landing page route
 router.get('/', function (req, res) {
     res.render('home.html', { 'title': 'Application Home' })
 });
 
-router.get('/mailhtml', function (req, res) {
-    let parseData = {
 
-        googleid: req.user._id,
-        name: req.user.name,
-        avatar: req.user.pic_url,
-        email: req.user.email,
-
-    }
-    res.render('mail.html', parseData)
-});
-
+// delete files from Google Drive
 router.post('/deleteFile', async function (req, res) {
 
     try {
@@ -65,6 +57,7 @@ router.post('/deleteFile', async function (req, res) {
     }
 });
 
+// load dashboard items
 router.get('/dashboard', isLoggedIn, async function (req, res) {
     try {
         const oauth2Client = new google.auth.OAuth2()
@@ -104,6 +97,7 @@ router.get('/dashboard', isLoggedIn, async function (req, res) {
     }
 });
 
+// upload files
 router.post('/uploadFile', function (req, res) {
     upload(req, res, function (err) {
         if (err) {
@@ -144,7 +138,7 @@ router.post('/uploadFile', function (req, res) {
     });
 });
 
-
+// send email
 router.post('/sendMail', async function (req, res) {
 
     const constructBody = params => {
