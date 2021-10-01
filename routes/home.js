@@ -54,7 +54,7 @@ router.post('/deleteFile', async function (req, res) {
         let deleteFile = await google.drive({
             version: "v3",
             auth: oauth2Client
-        }).files.delete({fileId: req.body.item_id});
+        }).files.delete({ fileId: req.body.item_id });
 
         if (deleteFile.status === 204) {
             res.redirect('/dashboard?file=deleted');
@@ -65,7 +65,6 @@ router.post('/deleteFile', async function (req, res) {
         res.redirect('/dashboard?file=not_deleted');
     }
 });
-
 
 router.get('/dashboard', isLoggedIn, async function (req, res) {
     try {

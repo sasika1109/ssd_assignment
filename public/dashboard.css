@@ -71,3 +71,7 @@ textarea:focus {
 .btn-email {
     width: 150px;
 }
+
+.wrapper-bottom-items {
+    height: 100%;
+}
