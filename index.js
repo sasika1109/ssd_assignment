@@ -13,6 +13,7 @@ const toastr = require('express-toastr');
 const bodyParser = require('body-parser');
 
 
+
 // init app
 let app = express();
 const port = 5000 || process.env.PORT;
@@ -38,6 +39,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 app.use(toastr());
+app.use(express.json());
+app.use(express.urlencoded({
+    extended: true
+}));
+
 
 // // file upload
 // app.use(fileUpload());
