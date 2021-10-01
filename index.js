@@ -10,6 +10,9 @@ const fileUpload = require('express-fileupload')
 const session = require('express-session');
 const flash = require('connect-flash');
 const toastr = require('express-toastr');
+const bodyParser = require('body-parser');
+
+
 
 // init app
 let app = express();
@@ -26,6 +29,9 @@ nunjucks.configure('views', {
 app.use('/static', express.static('public'));
 app.use(express.static(__dirname + '/public'));
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }))
+
 app.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
 
 // init passport
@@ -33,6 +39,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 app.use(toastr());
+app.use(express.json());
+app.use(express.urlencoded({
+    extended: true
+}));
+
 
 // // file upload
 // app.use(fileUpload());
